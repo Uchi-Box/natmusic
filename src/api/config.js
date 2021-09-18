@@ -1,9 +1,7 @@
 import axios from "axios";
 
 
-export const baseUrl = 'http://110.42.247.107:3000'
-export const baseUrl1 = 'http://localhost:3001'
-
+export const baseUrl = 'http://localhost:3001'
 
 const axiosInstance = axios.create({
     baseURL:baseUrl,
