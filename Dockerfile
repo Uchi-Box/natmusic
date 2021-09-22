@@ -16,12 +16,9 @@ RUN npm run build
 #nginx镜像
 FROM nginx:1.16.0-alpine
 #将build目录交给nginx容器
-COPY --from=client /opt/natmusic/build /usr/share/nginx/html
+COPY --from=client /opt/natmusic /usr/share/nginx/html
 #清除nginx默认配置
 RUN rm /etc/nginx/conf.d/default.conf
 #复制nginx配置
-COPY ./nginx.conf /etc/nignx/conf.d
-
-#启动nginx
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 3000
-CMD ['nginx','-g','daemon off;']
