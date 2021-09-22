@@ -18,10 +18,13 @@ const Video = () => {
 
 
     return(
-        <div className="min-h-screen min-w-screen bg-black space-y-2">
+        <div className="min-h-screen min-w-screen scrollbar-hide">
             <Header />
-            <h2 className="text-white text-lg font-bold ml-4">最新MV</h2>
-            <div className="grid grid-cols-2 gap-2 space-y-2 px-4">
+            <div className="ml-4 pt-12">
+            <h2 className="text-white text-lg font-bold  inline-block">最新MV</h2>
+            <span className="text-gray-400 text-tiny ml-2">凑数页面，看看就好</span>
+            </div>
+            <div className="mt-2 grid grid-cols-2 gap-2 space-y-2 px-4">
                 {
                     MVList.map((item,index)=>{
                         return (

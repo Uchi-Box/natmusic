@@ -9,7 +9,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {getComplex} from "./store/actionCreators";
 import {isEmptyObject} from "../../api/utils";
-import {changeCurrentIndex, changePlayList} from "../player/store/actioncreators";
+import {changeCurrentIndex, changePlayList, changeSequencePlayList} from "../player/store/actioncreators";
 import {AlbumTab} from "./tabContents/albums";
 
 const SearchResult = () => {
@@ -24,6 +24,7 @@ const SearchResult = () => {
     const {complex} = useSelector(state=>state.result)
     const clickToPlay = (playList,index) => {
         dispatch(changePlayList(playList))
+        dispatch(changeSequencePlayList(playList))
         dispatch(changeCurrentIndex(index))
     }
 

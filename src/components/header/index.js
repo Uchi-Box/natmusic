@@ -4,7 +4,7 @@ import {HamburgerButton, Search} from "@icon-park/react";
 
 const Header = () => {
     return(
-        <div className="sticky top-0 z-30 h-12 w-full px-4 py-2 bg-opacity-40 bg-black backdrop-filter backdrop-blur-lg flex justify-between items-center">
+        <div className="fixed top-0 z-30 h-12 w-full px-4 py-2 bg-opacity-40 bg-black backdrop-filter backdrop-blur-lg flex justify-between items-center">
             <HamburgerButton theme="outline" size="24" fill="#fff"/>
             <div className='flex items-center w-1/2'>
                 <Search className="-mr-8 z-10" theme="outline" size="24" fill="#fff"/>

@@ -1,22 +1,26 @@
-import {Switch,Route} from "react-router-dom";
-import Recommend from '../../views/recommend'
-import Yuncun from '../../views/Video'
-import Album from '../../views/album'
-import Search from "../../views/search/inedex";
-import Video from "../../views/Video";
+import {Redirect} from "react-router-dom";
+import {lazy,Suspense} from "react";
+import CacheRoute, {CacheSwitch} from "react-router-cache-route";
+
+const RecommendLazy = lazy(()=>import('../../views/recommend/index'))
+const AlbumLazy = lazy(()=>import('../../views/album'))
+const SearchLazy = lazy(()=>import('../../views/search'))
+const VideoLazy = lazy(()=>import('../../views/Video'))
+
 
 
 const Content = () => {
     return (
         <div className="bg-black">
-        <Switch>
-            <Route>
-                <Route path="/recommend" component={Recommend}/>
-                <Route path="/video" component={Video}/>
-                <Route path="/album/:id" component={Album}/>
-                <Route path="/search" component={Search}/>
-            </Route>
-        </Switch>
+            <Suspense fallback={null}>
+            <CacheSwitch>
+                <CacheRoute path="/" exact render={()=><Redirect to="/recommend" />} />
+                <CacheRoute path="/recommend" component={RecommendLazy}/>
+                <CacheRoute path="/video" component={VideoLazy}/>
+                <CacheRoute path="/album/:id" component={AlbumLazy}/>
+                <CacheRoute path="/search" component={SearchLazy}/>
+            </CacheSwitch>
+            </Suspense>
         </div>
     )
 }

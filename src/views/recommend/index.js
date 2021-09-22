@@ -6,7 +6,7 @@ import Iconset from "../../components/recommendIconset";
 import RecommendList from "../../components/recommendList";
 import Header from "../../components/header";
 import NewSongList from "../../components/newSongList";
-import {changeCurrentIndex, changePlayList, changeSequencePlayList, insertSong} from "../player/store/actioncreators";
+import {changeCurrentIndex, changePlayList, changeSequencePlayList} from "../player/store/actioncreators";
 
 const Recommend = () => {
     const dispatch = useDispatch()
@@ -26,9 +26,9 @@ const Recommend = () => {
     }
 
     return (
-        <div className="min-h-screen min-w-screen overflow-y-scroll scrollbar-hide">
+        <div className="min-h-screen min-w-screen scrollbar-hide">
             <Header />
-        <div className="flex flex-col px-4 space-y-6">
+        <div className="flex flex-col px-4 space-y-6 pt-14">
             <Slider bannerList={bannerList} />
             <Iconset />
             <p className="text-lg text-white font-bold">推荐歌单</p>

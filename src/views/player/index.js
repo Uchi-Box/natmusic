@@ -1,5 +1,5 @@
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState,useLayoutEffect} from "react";
 import {
     changeCurrentIndex,
     changeCurrentSong,
@@ -21,7 +21,7 @@ const Player = () => {
 
     const audioRef = useRef()
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!playList.length||
             currentIndex===-1||
             !playList[currentIndex] ||
@@ -30,6 +30,7 @@ const Player = () => {
         let current = playList[currentIndex]
         dispatch(getCurrentSong(current.id))
         audioRef.current.src = getSongUrl(current.id)
+        audioRef.current.play()
         dispatch(changePlayingState(true))
         dispatch(changeShowMini(true))
     },[playList,currentIndex])
@@ -92,7 +93,6 @@ const Player = () => {
         }
         let index = currentIndex + 1
         if (index===playList.length) index=0
-        dispatch(changePlayingState(false))
         dispatch(changeCurrentIndex(index))
     }
 
@@ -103,7 +103,6 @@ const Player = () => {
         }
         let index = currentIndex - 1
         if(index<0) index = playList.length - 1
-        dispatch(changePlayingState(false))
         dispatch(changeCurrentIndex(index))
     }
     

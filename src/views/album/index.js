@@ -52,26 +52,24 @@ const Album = () => {
         dispatch(changeSequencePlayList(fullList))
         dispatch(changeCurrentIndex(index))
         dispatch(changeCurrentSong(item))
-        dispatch(changePlayingState(true))
-        dispatch(changeShowMini(true))
     }
 
     return (
         isEmptyObject(albumDetail)?null:
             <div className="bg-black min-h-screen">
+                <div className="z-20 fixed backdrop-filter backdrop-blur-lg bg-white bg-opacity-10 h-12 w-full flex justify-between items-center px-2 py-2">
+                    <ArrowLeft onClick={()=>history.goBack()} theme="outline" size="30" fill="#fff" strokeWidth={2}  strokeLinejoin="bevel" strokeLinecap="butt"/>
+                    <span className="text-white text-lg font-bold">歌单</span>
+                    <ShareOne theme="outline" size="30" fill="#fff" strokeWidth={2}/>
+                </div>
                 <div
                     style={{backgroundImage: `url(${albumDetail.coverImgUrl})`}}
                     className="h-96 w-full bg-cover"
                 >
-                    <div className="h-96 w-full
-                flex flex-col space-y-4 relative
+                    <div className="h-96 w-full pt-16
+                flex flex-col space-y-4
                  backdrop-filter backdrop-blur-lg bg-black bg-opacity-50
                  ">
-                        <div className="z-20 sticky top-0 backdrop-filter backdrop-blur-lg bg-white bg-opacity-10 h-12 w-full flex justify-between items-center px-2 py-2">
-                            <ArrowLeft onClick={()=>history.goBack()} theme="outline" size="30" fill="#fff" strokeWidth={2}  strokeLinejoin="bevel" strokeLinecap="butt"/>
-                            <span className="text-white text-lg font-bold">歌单</span>
-                            <ShareOne theme="outline" size="30" fill="#fff" strokeWidth={2}/>
-                        </div>
                         <div className="h-36 w-full flex space-x-6 px-6">
                             <div
                                 style={{backgroundImage: `url(${albumDetail.coverImgUrl})`}}
