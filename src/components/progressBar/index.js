@@ -63,8 +63,8 @@ const ProgressBar = props => {
 
 
     return (
-        <div className="progressBarWrapper flex justify-between items-center space-x-2">
-            <span className="text-white text-sm w-12">{currentTime?formatTime(currentTime*1000):'00:00'}</span>
+        <div className="progressBarWrapper flex justify-between items-center space-x-4">
+            <div className="text-white text-sm">{currentTime?formatTime(currentTime*1000):'00:00'}</div>
             <div
                 ref={progressBar}
                 onClick={progressClick}
@@ -82,7 +82,7 @@ const ProgressBar = props => {
                     onTouchEnd={touchEnd}
                 />
             </div>
-            <span className="text-sm text-white w-12">{formatTime(duration*1000)}</span>
+            <div className="text-sm text-white">{formatTime(duration*1000)}</div>
         </div>
     )
 }

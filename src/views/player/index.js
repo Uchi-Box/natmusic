@@ -191,6 +191,7 @@ const Player = () => {
                         clickToPlay={clickToPlay}
                         clickToDel={clickToDel}
                         clearPlayList={clearPlayList}
+                        currentIndex={currentIndex}
                     />
                     :null
             }

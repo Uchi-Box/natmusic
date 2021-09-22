@@ -5,7 +5,7 @@ import {Confirm} from "../confirm";
 
 const PlayList = props => {
 
-    const {handleShowPlayList,playList,clickToPlay,clickToDel,clearPlayList} = props
+    const {handleShowPlayList,playList,currentIndex,clickToPlay,clickToDel,clearPlayList} = props
 
     const [showConfirm,setShowConfirm] = useState(false)
 
@@ -40,11 +40,14 @@ const PlayList = props => {
                     playList.map((item,index)=>{
                         return (
                             <li
-                                key={item+index}
+                                key={item.name+index}
                                 className="h-10 flex justify-between items-center border-b border-gray-800"
                             >
                                 <div className="truncate" onClick={()=>clickToPlay(index)}>
-                                <h3 className="text-white align-middle inline-block text-lg max-w-3/4 truncate">{item.name} </h3>
+                                    {index===currentIndex?
+                                        <h3 className="text-red-600 align-middle inline-block text-lg max-w-3/4 truncate">{item.name} </h3>
+                                        :<h3 className="text-white align-middle inline-block text-lg max-w-3/4 truncate">{item.name} </h3>
+                                    }
                                 <span className="ml-2 inline align-middle truncate text-gray-400">{item.ar?getName(item.ar):getName(item.artists)}</span>
                                 </div>
                                 <button className="flex-shrink-0 w-4" onClick={(e)=>clickToDel(e,item)}>

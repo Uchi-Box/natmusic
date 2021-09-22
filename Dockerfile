@@ -1,4 +1,4 @@
-#指定容器镜像
+#前端镜像
 FROM node:12.10.0-alpine as client
 #在容器中创建文件夹
 RUN mkdir /opt/natmusic
@@ -12,7 +12,16 @@ RUN npm install --production --registry=https://registry.npm.taobao.org
 COPY . /opt/natmusic
 #构建app
 RUN npm run build
-#暴露端口3000
+
+#nginx镜像
+FROM nginx:1.16.0-alpine
+#将build目录交给nginx容器
+COPY --from=client /opt/natmusic/build /usr/share/nginx/html
+#清除nginx默认配置
+RUN rm /etc/nginx/conf.d/default.conf
+#复制nginx配置
+COPY ./nginx.conf /etc/nignx/conf.d
+
+#启动nginx
 EXPOSE 3000
-# 运行容器时执行命令，每个 Dokcerfile 只能有一个 CMD 命令，多个的话只有最后一个会执行
-CMD [ "npm", "start" ]
+CMD ['nginx','-g','daemon off;']
