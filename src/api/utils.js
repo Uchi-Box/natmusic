@@ -1,5 +1,7 @@
 
 //防抖
+import {useEffect, useRef} from "react";
+
 export const debounce = (func, delay) => {
     let timer;
     return function (...args) {
@@ -91,3 +93,43 @@ export const findIndex = (song, list) => {
         return song.id === item.id;
     });
 };
+
+
+//事件监听hook
+// 参考https://github.com/alibaba/hooks/blob/master/packages/hooks/src/useEventListener/index.ts
+const getTargetElement = (target,defaultElement)=>{
+    if (!target) {
+        return defaultElement
+    }
+    if(typeof target === 'function'){
+        return target()
+    }else if('current' in target){
+        return target.current
+    }else{
+        return target
+    }
+}
+
+export const useEventListener = (eventName, handler, element, option) => {
+    const savedHandler = useRef()
+
+    useEffect(()=>{
+       savedHandler.current=handler
+    })
+    useEffect(()=>{
+        const targetElement = getTargetElement(element,window)
+        const isSupported = targetElement.addEventListener
+        if(!isSupported) return
+
+        const eventListener = event => savedHandler.current(event)
+
+        targetElement.addEventListener(eventName,eventListener,{
+            capture:option?.capture,
+            once:option?.once,
+            passive:option?.passive
+        })
+        return ()=>{
+            targetElement.removeEventListener(eventName,eventListener,{capture:option?.capture})
+        }
+    },[eventName,element,option])
+}

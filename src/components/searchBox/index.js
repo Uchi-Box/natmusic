@@ -1,9 +1,9 @@
 import {useEffect, useMemo, useRef, useState} from "react";
-import {debounce} from "../../api/utils";
+import {debounce, useEventListener} from "../../api/utils";
 import {useHistory} from "react-router-dom";
 
 
-const SearchBox = ({newQuery,handleQuery}) => {
+const SearchBox = ({newQuery,handleQuery,toResult}) => {
     const history = useHistory()
     const queryRef = useRef()
     const [query,setQuery] = useState('')
@@ -15,6 +15,12 @@ const SearchBox = ({newQuery,handleQuery}) => {
     const handleChange = e =>{
         setQuery(e.currentTarget.value)
     }
+
+    useEventListener('keydown',e =>{
+         if (e.keyCode === 13){
+             newQuery ? toResult(query):history.push('/search')
+         }
+    })
 
     let handleQueryDebounce = useMemo(() => {
         return debounce(handleQuery,300)
