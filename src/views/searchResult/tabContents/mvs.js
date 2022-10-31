@@ -1,7 +1,3 @@
-export const MV = ({MV}) => {
-    return (
-        <div>
-
-        </div>
-    )
+export const MV = ({ MV }) => {
+  return <div></div>
 }

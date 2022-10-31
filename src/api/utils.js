@@ -1,135 +1,132 @@
-
 //防抖
-import {useEffect, useRef} from "react";
+import { useEffect, useRef } from 'react'
 
 export const debounce = (func, delay) => {
-    let timer;
-    return function (...args) {
-        if(timer) {
-            clearTimeout(timer);
-        }
-        timer = setTimeout(() => {
-            func.apply(this, args);
-            clearTimeout(timer);
-        }, delay);
-    };
-};
-
+  let timer
+  return function (...args) {
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(() => {
+      func.apply(this, args)
+      clearTimeout(timer)
+    }, delay)
+  }
+}
 
 //处理歌手列表拼接歌手名字
 export const getName = list => {
-    let str = "";
-    list.map((item, index) => {
-        str += index === 0 ? item.name : "/" + item.name;
-        return item;
-    });
-    return str;
-};
+  let str = ''
+  list.map((item, index) => {
+    str += index === 0 ? item.name : '/' + item.name
+    return item
+  })
+  return str
+}
 
 //拼接出歌曲的url链接
 export const getSongUrl = id => {
-    return `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
-};
+  return `https://music.163.com/song/media/outer/url?id=${id}.mp3`
+}
 
 //转换歌曲播放时间
 export const formatPlayTime = interval => {
-    interval = interval | 0;// |0表示向下取整
-    const minute = (interval / 60) | 0;
-    const second = (interval % 60).toString().padStart(2, "0");
-    return `${minute}:${second}`;
-};
-
-
-export const formatTime= time => {
-    const intTime = Math.floor(time / 1000)
-    let minutes = Math.floor(intTime / 60)
-    let seconds = intTime % 60
-    if (minutes < 10) {
-        minutes = '0' + minutes
-    }
-    if (seconds < 10) {
-        seconds = '0' + seconds
-    }
-    return minutes + ':' + seconds
+  interval = interval | 0 // |0表示向下取整
+  const minute = (interval / 60) | 0
+  const second = (interval % 60).toString().padStart(2, '0')
+  return `${minute}:${second}`
 }
 
+export const formatTime = time => {
+  const intTime = Math.floor(time / 1000)
+  let minutes = Math.floor(intTime / 60)
+  let seconds = intTime % 60
+  if (minutes < 10) {
+    minutes = '0' + minutes
+  }
+  if (seconds < 10) {
+    seconds = '0' + seconds
+  }
+  return minutes + ':' + seconds
+}
 
 //判断一个对象是否为空对象
-export const isEmptyObject = obj => !obj || Object.keys(obj).length === 0;
+export const isEmptyObject = obj => !obj || Object.keys(obj).length === 0
 
 //格式化播放数
-export const getCount = (count) => {
-    if (count < 0) return;
-    if (count < 10000) {
-        return count;
-    } else if (Math.floor (count / 10000) < 10000) {
-        return Math.floor (count/1000)/10 + "万";
-    } else  {
-        return Math.floor (count / 10000000)/ 10 + "亿";
-    }
+export const getCount = count => {
+  if (count < 0) return
+  if (count < 10000) {
+    return count
+  } else if (Math.floor(count / 10000) < 10000) {
+    return Math.floor(count / 1000) / 10 + '万'
+  } else {
+    return Math.floor(count / 10000000) / 10 + '亿'
+  }
 }
 
 // 随机算法
 function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
+  return Math.floor(Math.random() * (max - min + 1) + min)
 }
 export function shuffle(arr) {
-    let new_arr = [];
-    arr.forEach(item => {
-        new_arr.push(item);
-    });
-    for (let i = 0; i < new_arr.length; i++) {
-        let j = getRandomInt(0, i);
-        let t = new_arr[i];
-        new_arr[i] = new_arr[j];
-        new_arr[j] = t;
-    }
-    return new_arr;
+  let new_arr = []
+  arr.forEach(item => {
+    new_arr.push(item)
+  })
+  for (let i = 0; i < new_arr.length; i++) {
+    let j = getRandomInt(0, i)
+    let t = new_arr[i]
+    new_arr[i] = new_arr[j]
+    new_arr[j] = t
+  }
+  return new_arr
 }
 
 // 找到当前的歌曲索引
 export const findIndex = (song, list) => {
-    return list.findIndex(item => {
-        return song.id === item.id;
-    });
-};
-
+  return list.findIndex(item => {
+    return song.id === item.id
+  })
+}
 
 //事件监听hook
 // 参考https://github.com/alibaba/hooks/blob/master/packages/hooks/src/useEventListener/index.ts
-const getTargetElement = (target,defaultElement)=>{
-    if (!target) {
-        return defaultElement
-    }
-    if(typeof target === 'function'){
-        return target()
-    }else if('current' in target){
-        return target.current
-    }else{
-        return target
-    }
+const getTargetElement = (target, defaultElement) => {
+  if (!target) {
+    return defaultElement
+  }
+  if (typeof target === 'function') {
+    return target()
+  } else if ('current' in target) {
+    return target.current
+  } else {
+    return target
+  }
 }
 
 export const useEventListener = (eventName, handler, element, option) => {
-    const savedHandler = useRef()
+  const savedHandler = useRef()
 
-    useEffect(()=>{
-       savedHandler.current=handler
+  useEffect(() => {
+    savedHandler.current = handler
+  })
+  useEffect(() => {
+    const targetElement = getTargetElement(element, window)
+    const isSupported = targetElement.addEventListener
+    if (!isSupported) return
+
+    const eventListener = event => savedHandler.current(event)
+
+    targetElement.addEventListener(eventName, eventListener, {
+      capture: option?.capture,
+      once: option?.once,
+      passive: option?.passive
     })
-    useEffect(()=>{
-        const targetElement = getTargetElement(element,window)
-        const isSupported = targetElement.addEventListener
-        if(!isSupported) return
-
-        const eventListener = event => savedHandler.current(event)
-
-        targetElement.addEventListener(eventName,eventListener,{
-            capture:option?.capture,
-            once:option?.once,
-            passive:option?.passive
-        })
-        return ()=>{
-            targetElement.removeEventListener(eventName,eventListener,{capture:option?.capture})
-        }
-    },[eventName,element,option])
+    return () => {
+      targetElement.removeEventListener(eventName, eventListener, {
+        capture: option?.capture
+      })
+    }
+  }, [eventName, element, option])
 }
